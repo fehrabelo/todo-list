@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>
+  Add ToDo Item
+  <mat-dialog-content class="mat-typography">
+    <form class="fields-spacing" [formGroup]="todoItemForm">
+      <section>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" required></textarea>
+          <mat-error
+            *ngIf="todoItemForm.controls['description'].hasError('required')"
+            >{{ formRequiredMessages.DESCRIPTION }}</mat-error
+          >
+        </mat-form-field>
+      </section>
+      <section>
+        <mat-form-field appearance="fill">
+          <mat-label>Select Priotiry</mat-label>
+          <mat-select formControlName="priority" required>
+            <mat-option
+              *ngFor="let priority of prioritiesRange"
+              [value]="priority.value"
+            >
+              {{ priority.value }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="todoItemForm.controls['priority'].hasError('required')"
+            >{{ formRequiredMessages.PRIORITY }}</mat-error
+          >
+        </mat-form-field>
+      </section>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a due date:</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dueDate"
+          required
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="todoItemForm.controls['dueDate'].hasError('required')"
+          >{{ formRequiredMessages.DUE_DATE }}</mat-error
+        >
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close color="primary" (click)="closeDialog()">
+      Cancel
+    </button>
+    <button
+      mat-button
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+      color="primary"
+      (click)="sendDialogDataToListTodoItemPage()"
+      [disabled]="todoItemForm.invalid"
+    >
+      Add
+    </button>
+  </mat-dialog-actions>
+</h2>
